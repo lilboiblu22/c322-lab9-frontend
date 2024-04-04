@@ -24,8 +24,12 @@
       displayTheDucks();
 
       async function getAll() {
-        let response = await fetch(host + "/ducks");
+        const headers = {"Authorization": `Bearer ${configuration.token()}`};
+        let response = await fetch(host + "/ducks", {headers});       
         let result = await response.json();
+        if (result == 401){
+          logout();
+        }
         return result;
       }
 

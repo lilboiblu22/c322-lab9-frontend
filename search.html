@@ -32,9 +32,16 @@
       let ducks = [];
 
       async function getAll() {
+        const headers = {"Authorization": `Bearer ${configuration.token()}`};
         let host = "http://localhost:8080";
-        return fetch(host + "/ducks")
-          .then((response) => response.json())
+        return fetch(host + "/ducks", {headers})
+          .then((response) => 
+          {
+            if (response.status == 401){
+              logout();
+            }
+            return response.json;
+          })
           .catch((error) => {
             console.log(error);
             alert("Something went wrong!");
